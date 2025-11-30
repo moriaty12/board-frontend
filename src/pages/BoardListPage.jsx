@@ -1,74 +1,52 @@
-// C:\board\board-frontend\src\pages\BoardListPage.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
-const API_BASE = "/api/board-posts";
-
-const thStyle = { border: "1px solid #ccc", padding: "8px", backgroundColor: "#f5f5f5" };
-const tdStyle = { border: "1px solid #ccc", padding: "8px" };
+const API_BASE = "http://192.168.35.225:8080/api/board-posts"; // Termux 백엔드 주소
 
 function BoardListPage() {
+  // ✅ 처음부터 배열로
   const [posts, setPosts] = useState([]);
-  const navigate = useNavigate();
-
-  const fetchPosts = async () => {
-    const res = await axios.get(API_BASE);
-    setPosts(res.data);
-  };
 
   useEffect(() => {
-    fetchPosts();
+    axios
+      .get(API_BASE)
+      .then((response) => {
+        const data = response.data;
+        // ✅ 혹시라도 객체가 오면 빈 배열로 방어
+        if (Array.isArray(data)) {
+          setPosts(data);
+        } else {
+          console.warn("예상치 못한 응답 형태:", data);
+          setPosts([]);
+        }
+      })
+      .catch((error) => {
+        console.error("목록 조회 실패:", error);
+        // ✅ 실패해도 빈 배열로 세팅해서 map 에러 방지
+        setPosts([]);
+      });
   }, []);
 
-  const formatDateTime = (dt) =>
-    dt ? dt.replace("T", " ").substring(0, 19) : "";
-
-  const handleRowClick = (id) => {
-    navigate(`/testboard/detail?id=${id}`);
-  };
-
   return (
-    <div style={{ maxWidth: "900px", margin: "30px auto", fontFamily: "sans-serif" }}>
-      <h1 style={{ marginBottom: "30px" }}>React + Spring 게시판</h1>
-
-      <div style={{ marginBottom: "15px", textAlign: "right" }}>
-        <button onClick={() => navigate("/testboard/create")}>새 글 작성</button>
-      </div>
-
-      <h2 style={{ marginBottom: "10px" }}>게시글 목록</h2>
-
-      <table style={{ borderCollapse: "collapse", width: "100%", textAlign: "center" }}>
-        <thead>
-          <tr>
-            <th style={thStyle}>ID</th>
-            <th style={thStyle}>제목</th>
-            <th style={thStyle}>작성자</th>
-            <th style={thStyle}>작성일시</th>
-          </tr>
-        </thead>
+    <div>
+      {/* ... 상단 제목/버튼 등 ... */}
+      <table>
+        <thead>...</thead>
         <tbody>
-          {posts.length === 0 && (
+          {posts.length === 0 ? (
             <tr>
-              <td colSpan={4} style={{ padding: "10px" }}>
-                게시글이 없습니다.
-              </td>
+              <td colSpan={4}>게시글이 없습니다.</td>
             </tr>
+          ) : (
+            posts.map((post) => (
+              <tr key={post.id}>
+                <td>{post.id}</td>
+                <td>{post.title}</td>
+                <td>{post.writer}</td>
+                <td>{post.createdAt}</td>
+              </tr>
+            ))
           )}
-          {posts.map((post) => (
-            <tr
-              key={post.id}
-              onClick={() => handleRowClick(post.id)}
-              style={{ cursor: "pointer" }}
-            >
-              <td style={tdStyle}>{post.id}</td>
-              <td style={{ ...tdStyle, textAlign: "left", paddingLeft: "10px" }}>
-                {post.title}
-              </td>
-              <td style={tdStyle}>{post.writer}</td>
-              <td style={tdStyle}>{formatDateTime(post.createdAt)}</td>
-            </tr>
-          ))}
         </tbody>
       </table>
     </div>
