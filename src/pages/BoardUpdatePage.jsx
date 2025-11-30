@@ -1,81 +1,95 @@
-// C:\board\board-frontend\src\pages\BoardUpdatePage.jsx
+// src/pages/BoardUpdatePage.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
-const API_BASE = "/api/board-posts";
-
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
+const API_BASE = "http://192.168.35.225:8080/api/board-posts";
 
 function BoardUpdatePage() {
-  const [form, setForm] = useState({ title: "", writer: "", content: "" });
-  const query = useQuery();
-  const id = query.get("id");
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get("id");
   const navigate = useNavigate();
+  const [form, setForm] = useState({
+    title: "",
+    writer: "",
+    content: "",
+  });
 
   useEffect(() => {
-    const fetchPost = async () => {
-      const res = await axios.get(`${API_BASE}/${id}`);
-      setForm({
-        title: res.data.title || "",
-        writer: res.data.writer || "",
-        content: res.data.content || "",
+    if (!id) return;
+    axios
+      .get(`${API_BASE}/${id}`)
+      .then((res) => {
+        const { title, writer, content } = res.data;
+        setForm({ title: title || "", writer: writer || "", content: content || "" });
+      })
+      .catch((err) => {
+        console.error("수정용 조회 실패:", err);
+        alert("게시글을 조회할 수 없습니다.");
+        navigate("/testboard/read");
       });
-    };
-    if (id) fetchPost();
-  }, [id]);
+  }, [id, navigate]);
 
-  const handleChange = (e) => {
+  const onChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.put(`${API_BASE}/${id}`, form);
-    navigate(`/testboard/detail?id=${id}`);
+    try {
+      await axios.put(`${API_BASE}/${id}`, form);
+      alert("수정되었습니다.");
+      navigate(`/testboard/detail?id=${id}`);
+    } catch (err) {
+      console.error("수정 실패:", err);
+      alert("수정 중 오류가 발생했습니다.");
+    }
   };
 
-  if (!id) return <div>잘못된 접근입니다. (id 없음)</div>;
+  const goDetail = () => navigate(`/testboard/detail?id=${id}`);
 
   return (
-    <div style={{ maxWidth: "800px", margin: "30px auto", fontFamily: "sans-serif" }}>
+    <div style={{ padding: 40 }}>
       <h2>게시글 수정</h2>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "10px" }}>
+      <form onSubmit={onSubmit}>
+        <div>
           <label>제목</label>
+          <br />
           <input
             name="title"
             value={form.title}
-            onChange={handleChange}
-            style={{ display: "block", width: "100%", padding: "8px" }}
+            onChange={onChange}
+            style={{ width: "400px" }}
           />
         </div>
-        <div style={{ marginBottom: "10px" }}>
+        <div style={{ marginTop: 8 }}>
           <label>작성자</label>
+          <br />
           <input
             name="writer"
             value={form.writer}
-            onChange={handleChange}
-            style={{ display: "block", width: "100%", padding: "8px" }}
+            onChange={onChange}
+            style={{ width: "400px" }}
           />
         </div>
-        <div style={{ marginBottom: "10px" }}>
+        <div style={{ marginTop: 8 }}>
           <label>내용</label>
+          <br />
           <textarea
             name="content"
             value={form.content}
-            onChange={handleChange}
-            rows={5}
-            style={{ display: "block", width: "100%", padding: "8px" }}
+            onChange={onChange}
+            rows={6}
+            style={{ width: "400px" }}
           />
         </div>
-        <button type="submit">수정 완료</button>{" "}
-        <button type="button" onClick={() => navigate(`/testboard/detail?id=${id}`)}>
-          취소
-        </button>
+        <div style={{ marginTop: 16 }}>
+          <button type="submit">저장</button>{" "}
+          <button type="button" onClick={goDetail}>
+            취소
+          </button>
+        </div>
       </form>
     </div>
   );

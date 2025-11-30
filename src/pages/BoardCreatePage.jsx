@@ -1,61 +1,78 @@
-// C:\board\board-frontend\src\pages\BoardCreatePage.jsx
+// src/pages/BoardCreatePage.jsx
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const API_BASE = "/api/board-posts";
+const API_BASE = "http://192.168.35.225:8080/api/board-posts";
 
 function BoardCreatePage() {
-  const [form, setForm] = useState({ title: "", writer: "", content: "" });
   const navigate = useNavigate();
+  const [form, setForm] = useState({
+    title: "",
+    writer: "",
+    content: "",
+  });
 
-  const handleChange = (e) => {
+  const onChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post(API_BASE, form);
-    navigate("/testboard/read");
+    try {
+      await axios.post(API_BASE, form);
+      alert("등록되었습니다.");
+      navigate("/testboard/read");
+    } catch (err) {
+      console.error("등록 실패:", err);
+      alert("등록 중 오류가 발생했습니다.");
+    }
   };
 
+  const goList = () => navigate("/testboard/read");
+
   return (
-    <div style={{ maxWidth: "800px", margin: "30px auto", fontFamily: "sans-serif" }}>
+    <div style={{ padding: 40 }}>
       <h2>새 글 작성</h2>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "10px" }}>
+      <form onSubmit={onSubmit}>
+        <div>
           <label>제목</label>
+          <br />
           <input
             name="title"
             value={form.title}
-            onChange={handleChange}
-            style={{ display: "block", width: "100%", padding: "8px" }}
+            onChange={onChange}
+            style={{ width: "400px" }}
           />
         </div>
-        <div style={{ marginBottom: "10px" }}>
+        <div style={{ marginTop: 8 }}>
           <label>작성자</label>
+          <br />
           <input
             name="writer"
             value={form.writer}
-            onChange={handleChange}
-            style={{ display: "block", width: "100%", padding: "8px" }}
+            onChange={onChange}
+            style={{ width: "400px" }}
           />
         </div>
-        <div style={{ marginBottom: "10px" }}>
+        <div style={{ marginTop: 8 }}>
           <label>내용</label>
+          <br />
           <textarea
             name="content"
             value={form.content}
-            onChange={handleChange}
-            rows={5}
-            style={{ display: "block", width: "100%", padding: "8px" }}
+            onChange={onChange}
+            rows={6}
+            style={{ width: "400px" }}
           />
         </div>
-        <button type="submit">등록</button>{" "}
-        <button type="button" onClick={() => navigate("/testboard/read")}>
-          취소
-        </button>
+        <div style={{ marginTop: 16 }}>
+          <button type="submit">등록</button>{" "}
+          <button type="button" onClick={goList}>
+            취소
+          </button>
+        </div>
       </form>
     </div>
   );
