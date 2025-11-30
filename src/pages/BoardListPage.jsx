@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const API_BASE = "http://192.168.35.225:8080/api/board-posts"; // Termux 백엔드 주소
+const API_BASE = "http://192.168.35.225:8080/api/board-posts";
 
 function BoardListPage() {
-  // ✅ 처음부터 배열로
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -12,7 +11,6 @@ function BoardListPage() {
       .get(API_BASE)
       .then((response) => {
         const data = response.data;
-        // ✅ 혹시라도 객체가 오면 빈 배열로 방어
         if (Array.isArray(data)) {
           setPosts(data);
         } else {
@@ -22,16 +20,24 @@ function BoardListPage() {
       })
       .catch((error) => {
         console.error("목록 조회 실패:", error);
-        // ✅ 실패해도 빈 배열로 세팅해서 map 에러 방지
         setPosts([]);
       });
   }, []);
 
   return (
     <div>
-      {/* ... 상단 제목/버튼 등 ... */}
+      <h1>React + Spring 게시판</h1>
+
+      <h2>게시글 목록</h2>
       <table>
-        <thead>...</thead>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일시</th>
+          </tr>
+        </thead>
         <tbody>
           {posts.length === 0 ? (
             <tr>
