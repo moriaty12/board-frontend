@@ -1,8 +1,8 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
-// ⚠️ /testboard 로 접속한다면 반드시 /testboard/ 로 base 지정
 export default defineConfig({
   plugins: [react()],
-  base: '/testboard/',
-})
+  // base: "/testboard/",  // 🔥 이 줄 주석 처리 or 삭제
+  base: "/",               // 또는 아예 이 줄도 빼도 됨 (기본값이 "/")
+});
