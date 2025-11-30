@@ -44,14 +44,28 @@ function BoardListPage() {
               <td colSpan={4}>게시글이 없습니다.</td>
             </tr>
           ) : (
-            posts.map((post) => (
-              <tr key={post.id}>
-                <td>{post.id}</td>
-                <td>{post.title}</td>
-                <td>{post.writer}</td>
-                <td>{post.createdAt}</td>
-              </tr>
-            ))
+            posts.map((post) => {
+              const formattedDate = post.createdAt
+                ? new Date(post.createdAt).toLocaleString("ko-KR", {
+                    timeZone: "Asia/Seoul",
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                  })
+                : "";
+
+              return (
+                <tr key={post.id}>
+                  <td>{post.id}</td>
+                  <td>{post.title || "(제목 없음)"}</td>
+                  <td>{post.writer || ""}</td>
+                  <td>{formattedDate}</td>
+                </tr>
+              );
+            })
           )}
         </tbody>
       </table>
