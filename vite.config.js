@@ -1,14 +1,8 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
+// ⚠️ /testboard 로 접속한다면 반드시 /testboard/ 로 base 지정
 export default defineConfig({
   plugins: [react()],
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://192.168.35.225:8080', // Termux 서버
-        changeOrigin: true,
-      },
-    },
-  },
+  base: '/testboard/',
 })
