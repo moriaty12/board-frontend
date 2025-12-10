@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
 // 외부망 고정 API 주소
-ss
+const API_BASE = "http://175.116.0.43:8889/api/board-posts";
 
 function BoardDetailPage() {
   const [searchParams] = useSearchParams();
