@@ -3,11 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 // 외부망 고정 API 주소
-const API_BASE =
-  window.location.hostname.includes("192.168.") ||
-  window.location.hostname.includes("localhost")
-    ? "http://192.168.35.225:8889"
-    : "http://175.116.0.43:8889";
+const API_BASE = "http://175.116.0.43:8889/api/board-posts";
 
 function BoardListPage() {
   const [posts, setPosts] = useState([]);
