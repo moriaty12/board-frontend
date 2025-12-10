@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
-
-const API_BASE = "http://192.168.35.225:8889/api/board-posts";
+// 외부망 고정 API 주소
+const API_BASE = "http://175.116.0.43:8889/api/board-posts";
 
 function BoardDetailPage() {
   const [searchParams] = useSearchParams();
