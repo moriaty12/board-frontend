@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-const API_BASE = "http://192.168.35.225:8888/api/board-posts";
+const API_BASE = "http://192.168.35.225:8889/api/board-posts";
 
 function BoardUpdatePage() {
   const [searchParams] = useSearchParams();

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const API_BASE = "http://192.168.35.225:8888/api/board-posts";
+const API_BASE = "http://192.168.35.225:8889/api/board-posts";
 
 function BoardListPage() {
   const [posts, setPosts] = useState([]);
