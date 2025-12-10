@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const API_BASE = "http://192.168.35.225:8080/api/board-posts";
+const API_BASE = "http://192.168.35.225:8888/api/board-posts";
 
 function BoardCreatePage() {
   const navigate = useNavigate();
