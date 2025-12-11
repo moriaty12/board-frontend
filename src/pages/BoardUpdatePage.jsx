@@ -2,8 +2,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
-// 외부망 고정 API 주소
-const API_BASE = "http://175.116.0.43:8889/api/board-posts";
+// 외부망 내부망 따로 
+const hostname = window.location.hostname;
+const API_BASE = hostname.startsWith("192.168.")
+  ? "http://192.168.35.225:8889/api/board-posts"
+  : "http://175.116.0.43:8889/api/board-posts";
 
 function BoardUpdatePage() {
   const [searchParams] = useSearchParams();
