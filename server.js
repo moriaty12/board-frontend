@@ -1,6 +1,7 @@
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
+import mime from "mime-types";
 
 const app = express();
 const PORT = 5173;
@@ -8,18 +9,22 @@ const PORT = 5173;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// dist 폴더 경로
+// ✅ dist 경로 설정
 const distPath = path.join(__dirname, "dist");
-app.use(express.static(distPath, {
-  extensions: ["html"],
-  setHeaders: (res, filePath) => {
-    if (path.extname(filePath) === ".js") {
-      res.setHeader("Content-Type", "application/javascript");
-    }
-  }
-}));
 
-// SPA 라우터 fallback
+// ✅ 정적 파일 서빙 (MIME 타입 보정)
+app.use(
+  express.static(distPath, {
+    setHeaders: (res, filePath) => {
+      const type = mime.lookup(filePath);
+      if (type) {
+        res.setHeader("Content-Type", type);
+      }
+    },
+  })
+);
+
+// ✅ SPA fallback (React Router 대응)
 app.get("*", (req, res) => {
   res.sendFile(path.join(distPath, "index.html"));
 });
