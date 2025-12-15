@@ -6,10 +6,13 @@ const app = express();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const distPath = path.join(__dirname, "dist");
 
-// ✅ 정적 파일 제공
+// ✅ 모든 하위 경로에 대해 정적파일 서빙
 app.use(express.static(distPath));
-// (필요하면) app.use("/assets", express.static(path.join(distPath, "assets")));
+app.use("/testboard", express.static(distPath));
+app.use("/testboard/read", express.static(distPath));
+app.use("/assets", express.static(path.join(distPath, "assets")));
 
+// ✅ SPA 라우팅 (React Router 대응)
 app.get("*", (req, res) => {
   res.sendFile(path.join(distPath, "index.html"));
 });
