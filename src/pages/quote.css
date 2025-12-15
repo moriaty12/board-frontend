@@ -1,0 +1,93 @@
+.quote-board {
+  width: 340px;
+  margin: 20px auto;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+  padding: 16px;
+  font-family: "Pretendard", sans-serif;
+}
+
+.quote-header h2 {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.price-area {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.price {
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.rate.up {
+  color: #d60000;
+}
+
+.rate.down {
+  color: #0055ff;
+}
+
+.orderbook {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+.orderbook th {
+  background: #f7f7f7;
+  padding: 8px;
+  font-size: 13px;
+}
+
+.orderbook td {
+  text-align: center;
+  padding: 6px;
+  font-size: 14px;
+}
+
+.ask {
+  background-color: rgba(255, 0, 0, 0.05);
+  color: #d60000;
+}
+
+.bid {
+  background-color: rgba(0, 80, 255, 0.05);
+  color: #0040ff;
+}
+
+.volume {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #666;
+}
+
+.ticker-input {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.ticker-input input {
+  padding: 6px 8px;
+  width: 150px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-right: 8px;
+}
+
+.ticker-input button {
+  background: #0040ff;
+  color: #fff;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.ticker-input button:hover {
+  background: #0029b3;
+}
