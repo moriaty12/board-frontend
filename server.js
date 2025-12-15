@@ -6,11 +6,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = 5173;
 
-// ✅ 1. 정적 파일(assets, vite.svg, 등) 제공
+// ✅ 1. 정적 파일 먼저 서빙
 app.use("/assets", express.static(path.join(__dirname, "assets")));
 app.use("/vite.svg", express.static(path.join(__dirname, "vite.svg")));
 
-// ✅ 2. SPA fallback (React Router 지원)
+// ✅ 2. 그 외 라우팅은 React Router fallback
 app.get("*", (req, res) => {
   console.log(`[FE] fallback to index.html for ${req.url}`);
   res.sendFile(path.join(__dirname, "index.html"));
