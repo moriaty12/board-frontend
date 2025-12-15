@@ -6,15 +6,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = 5173;
 
-// ✅ 현재 폴더(~/apps/board-frontend)의 정적 파일 제공
-app.use(express.static(__dirname));
+// ✅ 1. 정적 파일(assets, vite.svg, 등) 제공
+app.use("/assets", express.static(path.join(__dirname, "assets")));
+app.use("/vite.svg", express.static(path.join(__dirname, "vite.svg")));
 
-// ✅ assets 요청은 index.html로 fallback하지 않게 함
-app.get("/assets/*", (req, res) => {
-  res.sendFile(path.join(__dirname, req.path));
-});
-
-// ✅ SPA fallback (React Router 지원)
+// ✅ 2. SPA fallback (React Router 지원)
 app.get("*", (req, res) => {
   console.log(`[FE] fallback to index.html for ${req.url}`);
   res.sendFile(path.join(__dirname, "index.html"));
