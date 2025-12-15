@@ -2,23 +2,19 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = 5173;
 
-// ✅ 정적 파일 서빙 (CSS, JS 등)
-app.use(express.static(__dirname));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// ✅ React Router fallback (SPA)
+// ✅ dist 폴더를 정적 루트로 지정
+const distPath = path.join(__dirname);
+app.use(express.static(distPath));
+
+// ✅ SPA 라우팅 fallback
 app.get("*", (req, res) => {
-  // JS, CSS, 이미지 요청은 index.html로 보내지 않음
-  if (req.url.match(/\.(js|css|svg|png|jpg|jpeg|gif|ico)$/)) {
-    res.status(404).send("Not Found");
-    return;
-  }
-
-  console.log(`[FE] fallback to index.html for ${req.url}`);
-  res.sendFile(path.join(__dirname, "index.html"));
+  res.sendFile(path.join(distPath, "index.html"));
 });
 
 app.listen(PORT, "0.0.0.0", () => {
