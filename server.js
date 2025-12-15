@@ -6,18 +6,18 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = 5173;
 
-// ✅ dist 폴더 기준 정적 파일 서빙
-app.use(express.static(path.join(__dirname, "dist")));
+// ✅ 현재 폴더(~/apps/board-frontend)의 정적 파일 제공
+app.use(express.static(__dirname));
 
-// ✅ assets 요청은 index.html로 fallback하지 않게 처리
+// ✅ assets 요청은 index.html로 fallback하지 않게 함
 app.get("/assets/*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist", req.path));
+  res.sendFile(path.join(__dirname, req.path));
 });
 
-// ✅ 나머지는 SPA fallback
+// ✅ SPA fallback (React Router 지원)
 app.get("*", (req, res) => {
   console.log(`[FE] fallback to index.html for ${req.url}`);
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 app.listen(PORT, "0.0.0.0", () => {
