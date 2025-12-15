@@ -6,14 +6,16 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = 5173;
 
-// ✅ dist 정적 파일 제공
+// ✅ dist 폴더 기준 정적 파일 서빙
 app.use(express.static(path.join(__dirname, "dist")));
 
-// ✅ SPA fallback (assets 요청은 통과)
-app.get("*", (req, res, next) => {
-  if (req.path.startsWith("/assets/")) {
-    return res.sendFile(path.join(__dirname, "dist", req.path));
-  }
+// ✅ assets 요청은 index.html로 fallback하지 않게 처리
+app.get("/assets/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", req.path));
+});
+
+// ✅ 나머지는 SPA fallback
+app.get("*", (req, res) => {
   console.log(`[FE] fallback to index.html for ${req.url}`);
   res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
