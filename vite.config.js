@@ -1,12 +1,12 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// ✅ Express (Termux) 배포용 Vite 설정
+// ✅ Express(Termux)용 Vite 설정 - 절대경로 사용
 export default defineConfig({
   plugins: [react()],
-  base: "./",       // ✅ 상대경로로 빌드 (./assets/...)
+  // base: "./",  // ❌ 이거 때문에 경로 꼬였음 → 제거
   build: {
-    outDir: "dist", // ✅ 빌드 결과 폴더
+    outDir: "dist",
     emptyOutDir: true,
   },
 });
