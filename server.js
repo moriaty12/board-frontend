@@ -6,14 +6,23 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = 5173;
 
-// ✅ 1. 정적 파일 먼저 서빙
-app.use("/assets", express.static(path.join(__dirname, "assets")));
-app.use("/vite.svg", express.static(path.join(__dirname, "vite.svg")));
+// ✅ 1️⃣ 정적 파일 먼저 서빙
+app.use(express.static(__dirname));
 
-// ✅ 2. 그 외 라우팅은 React Router fallback
+// ✅ 2️⃣ React Router (SPA fallback)
 app.get("*", (req, res) => {
-  console.log(`[FE] fallback to index.html for ${req.url}`);
-  res.sendFile(path.join(__dirname, "index.html"));
+  if (
+    req.url.startsWith("/assets/") ||
+    req.url.endsWith(".js") ||
+    req.url.endsWith(".css") ||
+    req.url.endsWith(".svg")
+  ) {
+    // 정적파일은 index.html로 넘기면 안 됨
+    res.status(404).send("Not Found");
+  } else {
+    console.log(`[FE] fallback to index.html for ${req.url}`);
+    res.sendFile(path.join(__dirname, "index.html"));
+  }
 });
 
 app.listen(PORT, "0.0.0.0", () => {
