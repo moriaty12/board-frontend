@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+// 목업 화면 링크
+import { Link } from "react-router-dom";
 // 외부망 내부망 따로 
 const hostname = window.location.hostname;
 const API_BASE = hostname.startsWith("192.168.")
@@ -31,6 +33,10 @@ function BoardListPage() {
   return (
     <div style={{ padding: "40px" }}>
       <h1>React + Spring 게시판</h1>
+
+      <Link to="/invest" style={{ padding: 8, border: "1px solid #ccc", borderRadius: 8 }}>
+        투자 대시보드(목업) →
+      </Link>
 
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 40 }}>
         <h2>게시글 목록</h2>
