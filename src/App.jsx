@@ -17,6 +17,9 @@ import InvestEtf from "./invest/pages/InvestEtf.jsx";
 import InvestNews from "./invest/pages/InvestNews.jsx";
 import InvestStockOrder from "./invest/pages/InvestStockOrder.jsx";
 
+// 2026 05 17 실 포트폴리오용 추가
+import AssetHomePage from "./invest/pages/AssetHomePage";
+
 function App() {
   return (
     <BrowserRouter basename="/">
@@ -36,6 +39,9 @@ function App() {
         <Route path="/invest/etf" element={<InvestEtf />} />
         <Route path="/invest/news" element={<InvestNews />} />
         <Route path="/invest/stocks/:code" element={<InvestStockOrder />} />
+
+        // 2026 05 17 실 포트폴리오용 추가
+        <Route path="/invest/assets" element={<AssetHomePage />} />
 
         {/* ================= 안전장치 ================= */}
         <Route path="*" element={<Navigate to="/testboard/read" replace />} />
