@@ -64,3 +64,29 @@
   align-items: center;
   color: #94a3b8;
 }
+
+.compare-bottom-action {
+  margin: 18px 20px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.compare-bottom-action button {
+  height: 48px;
+  border-radius: 14px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.compare-bottom-action .outline-btn {
+  border: 1px solid #bfdbfe;
+  background: #fff;
+  color: #2563eb;
+}
+
+.compare-bottom-action .primary-btn {
+  border: none;
+  background: #2563eb;
+  color: #fff;
+}
