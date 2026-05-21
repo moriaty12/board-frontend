@@ -19,6 +19,9 @@ import InvestStockOrder from "./invest/pages/InvestStockOrder.jsx";
 
 // 2026 05 17 실 포트폴리오용 추가
 import AssetHomePage from "./invest/pages/AssetHomePage";
+// 2026 05 21 실 포트폴리오용 추가 2
+import CompareMainPage from "./invest/compare/pages/CompareMainPage";
+import CompareDetailPage from "./invest/compare/pages/CompareDetailPage";
 
 function App() {
   return (
@@ -42,6 +45,9 @@ function App() {
 
         // 2026 05 17 실 포트폴리오용 추가
         <Route path="/invest/assets" element={<AssetHomePage />} />
+        // 2026 05 21 실 포트폴리오용 추가 2
+        <Route path="/invest/compare" element={<CompareMainPage />} />
+        <Route path="/invest/compare/detail" element={<CompareDetailPage />} />
 
         {/* ================= 안전장치 ================= */}
         <Route path="*" element={<Navigate to="/testboard/read" replace />} />
